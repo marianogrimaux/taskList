@@ -1,0 +1,28 @@
+server {
+    listen 80;
+    server_name api.todolist.localhost;
+        root /var/www/todolist/public;
+
+    location / {
+        try_files $uri /index.php$is_args$args;
+    }
+
+    location ~* \.(jpg|jpeg|gif|css|png|js|ico|html|eof|woff|ttf)$ {
+        if (-f $request_filename) {
+            expires 30d;
+            access_log off;
+        }
+    }
+
+    location ~ \.php$ {
+        fastcgi_pass php:9000;
+        fastcgi_param SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param APP_ENV dev;
+        fastcgi_param APP_SECRET d45f9ff09f0b4c776d6ef7d8be90111e;
+        fastcgi_param DATABASE_URL "mysql://appuser:userPass@db:3306/todolist";
+        include fastcgi_params;
+    }
+
+    error_log /var/log/nginx/backend_error.log;
+    access_log /var/log/nginx/backend_access.log;
+}

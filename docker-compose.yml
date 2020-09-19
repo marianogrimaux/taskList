@@ -1,0 +1,51 @@
+version: '3.0'
+services:
+    web:
+      image: nginx
+      ports:
+        - "80:80"
+      links:
+        - php
+      volumes:
+        - "./:/var/www"
+        - "./docker/config/nginx/vhost/backend_vhost:/etc/nginx/conf.d/030-backend.conf:ro"
+        - ./logs/nginx/:/var/log/nginx
+
+    php:
+      build: ./docker/.
+      links:
+        - db
+      volumes:
+        - "./docker/config/php/php.ini:/usr/local/etc/php/conf.d/030-custom.ini:ro"
+        - "./:/var/www"
+        - ./logs/symfony:/var/logs/symfony
+      ports:
+        - "9000:9000"
+      environment:
+        - APP_ENV=dev
+        - APP_DEBUG=1
+        - APP_SECRET=83512d52ee8797e6e9de2322dc781885
+        - DATABASE_HOST=db
+        - DATABASE_USER=appuser
+        - DATABASE_PASSWORD=userPass
+        - DATABASE_NAME=todolist
+        - DATABASE_PORT=3306
+      working_dir: "/var/www/todolist"
+      deploy:
+        resources:
+          limits:
+            memory: 1024M
+            cpus: '0.50'
+
+    db:
+      image: mariadb
+      command: --character-set-server=utf8mb4 --collation-server=utf8mb4_unicode_ci
+      environment:
+        - "MYSQL_ROOT_PASSWORD=rootPass"
+        - "MYSQL_USER=appuser"
+        - "MYSQL_PASSWORD=userPass"
+        - "MYSQL_DATABASE=todolist"
+      ports:
+        - "3306:3306"
+      volumes:
+        - "./docker/data/db:/var/lib/mysql"
