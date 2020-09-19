@@ -1,3 +1,9 @@
+# Docker Data
+/docker/data
+
+# Nginx logs
+/logs
+
 # Cache and logs (Symfony2)
 /app/cache/*
 /app/logs/*
@@ -50,3 +56,5 @@
 
 # Embedded web-server pid file
 /.web-server-pid
+#idea settings
+.idea*
