@@ -37,4 +37,9 @@ class TaskTest extends TestCase
         $this->assertEquals('Pending', $task->getStatus()->getValue());
     }
 
+    public function testTasksHaveOwner() : void
+    {
+        $this->fail("User are not implemented");
+    }
+
 }
