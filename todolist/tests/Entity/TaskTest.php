@@ -3,6 +3,7 @@
 namespace Tests\Entity;
 
 use App\Entity\Task;
+use App\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class TaskTest extends TestCase
@@ -13,7 +14,7 @@ class TaskTest extends TestCase
      */
     public function testCreationDate() : void
     {
-        $task = new Task('A simple task', new \DateTime());
+        $task = new Task('A simple task', new \DateTime(), $this->getUser());
         $this->assertNotNull($task->getCreationDate());
     }
 
@@ -22,7 +23,7 @@ class TaskTest extends TestCase
      */
     public function testDescriptionOnCreation() : void
     {
-        $task = new Task('A simple task', new \DateTime());
+        $task = new Task('A simple task', new \DateTime(), $this->getUser());
         $this->assertNull($task->getDescription());
     }
 
@@ -32,14 +33,14 @@ class TaskTest extends TestCase
      */
     public function testTaskHaveDefaultStatus() : void
     {
-        $task = new Task('A simple task', new \DateTime());
+        $task = new Task('A simple task', new \DateTime(), $this->getUser());
         $this->assertNotNull($task->getStatus());
         $this->assertEquals('Pending', $task->getStatus()->getValue());
     }
 
-    public function testTasksHaveOwner() : void
+    private function getUser() : User
     {
-        $this->fail("User are not implemented");
+        return new User('Mariano', 'mariano@mariano.com');
     }
 
 }

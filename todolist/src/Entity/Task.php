@@ -12,13 +12,20 @@ class Task
     private $duedate;
     private $creationDate;
     private $status;
+    private $assignee;
 
-    function __construct(string $title,\DateTimeInterface $dueDate ,\DateTimeInterface $creationDate = null)
+    function __construct(
+        string $title,
+        \DateTimeInterface $dueDate,
+        User $asignee,
+        \DateTimeInterface $creationDate = null
+    )
     {
         $this->title = $title;
         $this->duedate = $dueDate;
         $this->creationDate = $cretionDate ?? new \DateTime();
         $this->status = TaskStatus::PENDING();
+        $this->assignee = $asignee;
     }
 
     /**
@@ -113,7 +120,12 @@ class Task
         $this->status = $status;
     }
 
-
-
+    /**
+     * @return User
+     */
+    public function getAssignee() : User
+    {
+        return $this->assignee;
+    }
 
 }
