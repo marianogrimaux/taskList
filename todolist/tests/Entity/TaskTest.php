@@ -28,10 +28,13 @@ class TaskTest extends TestCase
 
     /*
      * Test that task have a default status
+     * Default status for tasks is PENDING
      */
     public function testTaskHaveDefaultStatus() : void
     {
-        $this->fail("Not implemented");
+        $task = new Task('A simple task', new \DateTime());
+        $this->assertNotNull($task->getStatus());
+        $this->assertEquals('Pending', $task->getStatus()->getValue());
     }
 
 }

@@ -18,6 +18,7 @@ class Task
         $this->title = $title;
         $this->duedate = $dueDate;
         $this->creationDate = $cretionDate ?? new \DateTime();
+        $this->status = TaskStatus::PENDING();
     }
 
     /**
@@ -95,5 +96,24 @@ class Task
     {
         return $this->creationDate;
     }
+
+    /**
+     * @return TaskStatus
+     */
+    public function getStatus(): TaskStatus
+    {
+        return $this->status;
+    }
+
+    /**
+     * @param TaskStatus $status
+     */
+    public function setStatus(TaskStatus $status): void
+    {
+        $this->status = $status;
+    }
+
+
+
 
 }
