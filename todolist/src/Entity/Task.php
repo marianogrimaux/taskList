@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Entity;
 
+use DateTime;
+use DateTimeInterface;
 
 class Task
 {
@@ -16,34 +19,33 @@ class Task
 
     function __construct(
         string $title,
-        \DateTimeInterface $dueDate,
+        DateTimeInterface $dueDate,
         User $asignee,
-        \DateTimeInterface $creationDate = null
-    )
-    {
+        DateTimeInterface $creationDate = null
+    ) {
         $this->title = $title;
         $this->duedate = $dueDate;
-        $this->creationDate = $cretionDate ?? new \DateTime();
+        $this->creationDate = $cretionDate ?? new DateTime();
         $this->status = TaskStatus::PENDING();
         $this->assignee = $asignee;
-    }
-
-    /**
-     * @param int
-     * the task id
-     */
-    public function setId(int $id) : void
-    {
-        $this->id = $id;
     }
 
     /**
      * @return string
      * the task id
      */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
+    }
+
+    /**
+     * @param int
+     * the task id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
     }
 
     /**
@@ -67,7 +69,7 @@ class Task
     /**
      * @return mixed
      */
-    public function getDescription() : ?string
+    public function getDescription(): ?string
     {
         return $this->description;
     }
@@ -81,25 +83,25 @@ class Task
     }
 
     /**
-     * @return \DateTimeInterface
+     * @return DateTimeInterface
      */
-    public function getDuedate(): \DateTimeInterface
+    public function getDuedate(): DateTimeInterface
     {
         return $this->duedate;
     }
 
     /**
-     * @param \DateTimeInterface $duedate
+     * @param DateTimeInterface $duedate
      */
-    public function setDuedate(\DateTimeInterface $duedate): void
+    public function setDuedate(DateTimeInterface $duedate): void
     {
         $this->duedate = $duedate;
     }
 
     /**
-     * @return \DateTime
+     * @return DateTime
      */
-    public function getCreationDate(): \DateTime
+    public function getCreationDate(): DateTime
     {
         return $this->creationDate;
     }
@@ -123,7 +125,7 @@ class Task
     /**
      * @return User
      */
-    public function getAssignee() : User
+    public function getAssignee(): User
     {
         return $this->assignee;
     }

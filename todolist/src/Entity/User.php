@@ -1,8 +1,8 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Entity;
-
 
 class User
 {
@@ -20,7 +20,7 @@ class User
     /**
      * @return mixed
      */
-    public function getId() : ?int
+    public function getId(): ?int
     {
         return $this->id;
     }
@@ -52,7 +52,7 @@ class User
     /**
      * @return mixed
      */
-    public function getPassword() : ?string
+    public function getPassword(): ?string
     {
         return $this->password;
     }

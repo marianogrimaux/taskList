@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 
 namespace App\Entity;
 
@@ -11,17 +12,17 @@ class TaskStatus extends Enum
     private const DONE = 'Done';
     private const DOING = 'Doing';
 
-    public static function PENDING() : self
+    public static function PENDING(): self
     {
         return new TaskStatus(self::PENDING);
     }
 
-    public static function DONE() : self
+    public static function DONE(): self
     {
         return new TaskStatus(self::DONE);
     }
 
-    public static function DOING() : self
+    public static function DOING(): self
     {
         return new TaskStatus(self::DOING);
     }
