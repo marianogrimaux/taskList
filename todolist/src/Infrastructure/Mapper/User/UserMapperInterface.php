@@ -12,8 +12,7 @@ interface UserMapperInterface
 {
     public function fetchUserBy(array $valuesMap) : ?User;
 
-    public function saveUser(User $user) : void;
+    public function updateUser(User $user): void;
 
-    public function createUser(User $user) : void;
-
+    public function createUser(User $user): void;
 }
