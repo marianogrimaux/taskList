@@ -10,7 +10,7 @@ use App\Entity\User;
 
 interface UserMapperInterface
 {
-    public function fetchUserBy(array $valuesMap) : ?User;
+    public function fetchUserBy(array $valuesMap): ?User;
 
     public function updateUser(User $user): void;
 
