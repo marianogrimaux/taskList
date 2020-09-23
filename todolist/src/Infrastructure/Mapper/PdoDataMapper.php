@@ -58,7 +58,7 @@ abstract class PdoDataMapper
             . ' WHERE ' . implode('AND ', $whereConditions);
         try {
             $stmt = $this->dbConnection->prepare($sql);
-            $stmt->execute($valuesMap);
+            $stmt->execute(array_merge($valuesMap, $whereValues));
         } catch (PDOException $exception) {
             throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
