@@ -42,6 +42,7 @@ abstract class PdoDataMapper
 
     /**
      * Expects $valuesMap and $hereValues as [column => value]
+     * @throws MapperException if malformed query
      */
     protected function executeUpdate(array $valuesMap, array $whereValues): void
     {
@@ -63,6 +64,10 @@ abstract class PdoDataMapper
         }
     }
 
+    /**
+     * Expects $valuesMap and $hereValues as [column => value]
+     * @throws MapperException if malformed query
+     */
     protected function executeInsert(array $valuesMap): int
     {
         $placeholders = [];

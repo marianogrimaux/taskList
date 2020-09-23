@@ -18,9 +18,9 @@ class PdoUserMapper extends PdoDataMapper implements UserMapperInterface
     /*
      * Fecth user where values are equal
      * values map expects [column => value].
+     * @param array $userValues
      * @throws MapperException if malformed query
      */
-
     private function buildUserFromDbValues(array $userValues)
     {
         $user = new User($userValues['name'], $userValues['email']);
@@ -29,10 +29,8 @@ class PdoUserMapper extends PdoDataMapper implements UserMapperInterface
         return $user;
     }
 
-    /*
-     * Fecth user where values are equal
-     * values map expects [column => value].
-     * @throws MapperException if malformed query
+    /**
+     * @param User
      */
 
     public function updateUser(User $user): void
@@ -46,10 +44,8 @@ class PdoUserMapper extends PdoDataMapper implements UserMapperInterface
     }
 
 
-    /*
-     * Fecth user where values are equal
-     * values map expects [column => value].
-     * @throws MapperException if malformed query
+    /**
+     * @param User
      */
     public function createUser(User $user): void
     {
