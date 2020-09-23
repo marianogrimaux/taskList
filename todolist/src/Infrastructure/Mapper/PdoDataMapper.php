@@ -33,7 +33,11 @@ abstract class PdoDataMapper
         try {
             $statement = $this->dbConnection->prepare($sql);
             $statement->execute(array_values($valuesMap));
-            $fetchedData = $statement->fetch(PDO::FETCH_ASSOC);
+            if ($statement->rowCount() > 1) {
+                $fetchedData = $statement->fetchAll(PDO::FETCH_ASSOC);
+            } else {
+                $fetchedData = $statement->fetch(PDO::FETCH_ASSOC);
+            }
             return $fetchedData ?: null;
         } catch (PDOException $exception) {
             throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
