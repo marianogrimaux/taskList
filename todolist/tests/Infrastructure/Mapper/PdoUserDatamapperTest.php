@@ -11,7 +11,7 @@ use App\Infrastructure\Mapper\User\PdoUserMapper;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
-class UserDatamapperTest extends TestCase
+class PdoUserDatamapperTest extends TestCase
 {
 
     public function testMappingData() : void
