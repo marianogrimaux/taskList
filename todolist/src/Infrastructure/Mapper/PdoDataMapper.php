@@ -16,6 +16,8 @@ abstract class PdoDataMapper
         $this->dbConnection = $dbConnection;
     }
 
+    abstract protected function getTableName(): string;
+
     protected function executeSelect(array $valuesMap): ?array
     {
         $sql = 'SELECT * FROM ' . $this->getTableName() . ' WHERE ';
@@ -38,5 +40,43 @@ abstract class PdoDataMapper
         }
     }
 
-    abstract protected function getTableName(): string;
+    /**
+     * Expects $valuesMap and $hereValues as [column => value]
+     */
+    protected function executeUpdate(array $valuesMap, array $whereValues): void
+    {
+        $valuesToSet = [];
+        foreach (array_keys($valuesMap) as $column) {
+            $valuesToSet[] = $column .= '=:' . $column;
+        }
+        $whereConditions = [];
+        foreach (array_keys($whereValues) as $whereValue) {
+            $whereConditions[] = $whereValue .= '=:' . $whereValue;
+        }
+        $sql = 'UPDATE ' . $this->getTableName() . ' SET ' . implode(", ", $valuesToSet)
+            . ' WHERE ' . implode('AND ', $whereConditions);
+        try {
+            $stmt = $this->dbConnection->prepare($sql);
+            $stmt->execute($valuesMap);
+        } catch (PDOException $exception) {
+            throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
+        }
+    }
+
+    protected function executeInsert(array $valuesMap): int
+    {
+        $placeholders = [];
+        foreach (array_keys($valuesMap) as $column) {
+            $placeholders[] = ':' . $column;
+        }
+        $sql = 'INSERT INTO ' . $this->getTableName() . ' ('
+            . implode(', ', array_keys($valuesMap)) . ') VALUES (' . implode(', ', $placeholders) . ')';
+        try {
+            $statement = $this->dbConnection->prepare($sql);
+            $statement->execute($valuesMap);
+            return (int)$this->dbConnection->lastInsertId();
+        } catch (PDOException $exception) {
+            throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
+        }
+    }
 }
