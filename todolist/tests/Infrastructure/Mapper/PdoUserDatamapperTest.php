@@ -7,11 +7,10 @@ namespace Tests\Infrastructure;
 
 use App\Entity\User;
 use App\Infrastructure\Mapper\MapperException;
+use App\Infrastructure\Mapper\Task\PdoMapperTest;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
-use PHPUnit\Framework\MockObject\MockObject;
-use PHPUnit\Framework\TestCase;
 
-class PdoUserDatamapperTest extends TestCase
+class PdoUserDatamapperTest extends PdoMapperTest
 {
 
     public function testMappingData() : void
@@ -47,29 +46,11 @@ class PdoUserDatamapperTest extends TestCase
         $user = new User("Mariano", "email@email.com");
         $user->setPassword("pass");
         $user->setId(1);
-        $connection = $this->getMockedPdo();
-        $connection->expects($this->once())
-            ->method('prepare')
-            ->will($this->returnCallback(
-                function ($query) {
-                    $this->assertEquals(
-                        'UPDATE user SET name=:name, email=:email, password=:password WHERE id=:id',
-                        $query
-                    );
-                    $statement = $this->getMockedStatement();
-                    $statement->expects($this->once())
-                        ->method('execute')
-                        ->willReturn($this->returnCallback(
-                            function (array $values) {
-                                $this->assertTrue(array_key_exists('name', $values));
-                                $this->assertTrue(array_key_exists('email', $values));
-                                $this->assertTrue(array_key_exists('password', $values));
-                            }
-                        ));
-                    return $statement;
-                }
-            ))
-        ;
+        $statement = $this->buildPdoStatementMockWithValueMapCheck(['name', 'email', 'password']);
+        $connection = $this->buildPdoMockWithQueryCheck(
+            'UPDATE user SET name=:name, email=:email, password=:password WHERE id=:id',
+            $statement
+        );
         $dataMapper = new PdoUserMapper($connection);
         $dataMapper->updateUser($user);
     }
@@ -82,31 +63,12 @@ class PdoUserDatamapperTest extends TestCase
     {
         $user = new User("Mariano", "email@email.com");
         $user->setPassword("pass");
-        $connection = $this->getMockedPdo();
-        $connection->expects($this->once())
-            ->method('prepare')
-            ->will($this->returnCallback(
-                function ($query) {
-                    $this->assertEquals(
-                        'INSERT INTO user (name, email, password) VALUES (:name, :email, :password)',
-                        $query
-                    );
-                    $statement = $this->getMockedStatement();
-                    $statement->expects($this->once())
-                        ->method('execute')
-                        ->willReturn($this->returnCallback(
-                            function (array $values) {
-                                $this->assertTrue(array_key_exists('name', $values));
-                                $this->assertTrue(array_key_exists('email', $values));
-                                $this->assertTrue(array_key_exists('password', $values));
-                                return true;
-                            }
-                        ));
-                    return $statement;
-                }
-            ));
-        $connection->method('lastInsertId')
-        ->willReturn(1);
+        $statement = $this->buildPdoStatementMockWithValueMapCheck(['name', 'email', 'password']);
+        $connection = $this->buildPdoMockWithQueryCheck(
+            'INSERT INTO user (name, email, password) VALUES (:name, :email, :password)',
+            $statement
+        );
+        $connection->method('lastInsertId')->willReturn(1);
         $dataMapper = new PdoUserMapper($connection);
         $dataMapper->createUser($user);
         $this->assertEquals(1, $user->getId());
@@ -142,24 +104,5 @@ class PdoUserDatamapperTest extends TestCase
         $dataMapper = new PdoUserMapper($connection);
         $this->expectException(MapperException::class);
         $dataMapper->fetchUserBy(['id'=>1]);
-    }
-
-    private function getMockedStatement() : MockObject
-    {
-        $statement = $this->getMockBuilder('\PDOStatement')
-            ->disableOriginalConstructor()
-            ->getMock();
-        return $statement;
-    }
-
-    private function getMockedPdo(MockObject $statement = null) : MockObject
-    {
-        $db = $this->getMockBuilder('\PDO')
-            ->disableOriginalConstructor()
-            ->getMock();
-        if ($statement) {
-            $db->method('prepare')->willReturn($statement);
-        }
-        return $db;
     }
 }
