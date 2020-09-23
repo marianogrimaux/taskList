@@ -25,7 +25,7 @@ class Task
     ) {
         $this->title = $title;
         $this->duedate = $dueDate;
-        $this->creationDate = $cretionDate ?? new DateTime();
+        $this->creationDate = $creationDate ?? new DateTime();
         $this->status = TaskStatus::PENDING();
         $this->assignee = $asignee;
     }
