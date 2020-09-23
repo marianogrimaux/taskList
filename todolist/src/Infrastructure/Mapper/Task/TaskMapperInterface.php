@@ -1,19 +1,18 @@
 <?php
 
-
 namespace App\Infrastructure\Mapper\Task;
 
 use App\Entity\Task;
 
 interface TaskMapperInterface
 {
-    public function create(): void;
+    public function createTask(Task $task): void;
 
-    public function fetchOne(): Task;
+    public function fetchTaskBy(array $valuesMap): ?Task;
 
-    public function fetchBy(): array;
+    public function fetchBy(array $valuesMap): array;
 
-    public function update(Task $task): void;
+    public function updateTask(Task $task): void;
 
-    public function delete(Task $task): void;
+    public function deleteTask(Task $task): void;
 }

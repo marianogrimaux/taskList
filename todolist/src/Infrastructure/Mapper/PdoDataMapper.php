@@ -88,4 +88,19 @@ abstract class PdoDataMapper
             throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
     }
+
+    protected function executeDelete(array $valuesMap)
+    {
+        $whereConditions = [];
+        foreach (array_keys($valuesMap) as $whereValue) {
+            $whereConditions[] = $whereValue .= '=:' . $whereValue;
+        }
+        $sql = 'DELETE FROM ' . $this->getTableName() . ' WHERE ' . implode('AND ', $whereConditions);
+        try {
+            $statement = $this->dbConnection->prepare($sql);
+            $statement->execute($valuesMap);
+        } catch (PDOException $exception) {
+            throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
+        }
+    }
 }

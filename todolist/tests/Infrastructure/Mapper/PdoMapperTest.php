@@ -58,6 +58,7 @@ abstract class PdoMapperTest extends TestCase
                     }
                 }
             ));
+        return $statement;
     }
 
 }
