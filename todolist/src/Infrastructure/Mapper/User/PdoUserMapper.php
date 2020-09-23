@@ -6,16 +6,11 @@ namespace App\Infrastructure\Mapper\User;
 
 use App\Entity\User;
 use App\Infrastructure\Mapper\MapperException;
+use App\Infrastructure\Mapper\PdoDataMapper;
 
-class PdoUserMapper implements UserMapperInterface
+class PdoUserMapper extends PdoDataMapper implements UserMapperInterface
 {
     const TABLE = 'user';
-    private $dbConnection;
-
-    function __construct(\PDO $dbConnection)
-    {
-        $this->dbConnection = $dbConnection;
-    }
 
     /*
      * Fecth user where values are equal
