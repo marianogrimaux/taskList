@@ -37,7 +37,7 @@ class UserDatamapperTest extends TestCase
         $this->assertEquals(null, $user);
     }
 
-    /*
+    /**
      * Test updating users:
      * Validation in parameters map.
      * Validation in query that will be executed.
@@ -74,7 +74,7 @@ class UserDatamapperTest extends TestCase
         $dataMapper->updateUser($user);
     }
 
-    /*
+    /**
      * Test create users
      * Check query and setting id to user
      */
@@ -112,15 +112,16 @@ class UserDatamapperTest extends TestCase
         $this->assertEquals(1, $user->getId());
     }
 
-    /*
-     *
+    /**
+     * Test PDO exceptions handling
+     * Maintain exception wrapping
      */
     public function testPdoExceptionHandlingOnInsert() {
         $user = new User("Mariano", "email@email.com");
         $user->setPassword("pass");
         $connection = $this->getMockedPdo();
         $connection->method('prepare')
-            ->willThrowException(new MapperException());
+            ->willThrowException(new \PDOException());
         $dataMapper = new PdoUserMapper($connection);
         $this->expectException(MapperException::class);
         $dataMapper->createUser($user);
@@ -129,6 +130,10 @@ class UserDatamapperTest extends TestCase
 
     }
 
+     /**
+      * Test PDO exceptions handling
+      * Maintain exception wrapping
+      */
     public function testPdoSelectException() : void
     {
         $connection = $this->getMockedPdo();
