@@ -9,6 +9,7 @@ use App\Entity\User;
 use App\Infrastructure\Mapper\Task\PdoMapperTest;
 use App\Infrastructure\Mapper\Task\PdoTaskMapper;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
+use DateTime;
 use PHPUnit\Framework\MockObject\MockObject;
 
 class PdoTaskMapperTest extends PdoMapperTest
@@ -31,7 +32,7 @@ class PdoTaskMapperTest extends PdoMapperTest
 
     private function getTask(int $id = null): Task
     {
-        $task = new Task('A test task', new \DateTime(), $this->getUserMock());
+        $task = new Task('A test task', new DateTime(), $this->getUserMock());
         if ($id) {
             $task->setId($id);
         }

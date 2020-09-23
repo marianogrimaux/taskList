@@ -9,30 +9,31 @@ use App\Entity\User;
 use App\Infrastructure\Mapper\MapperException;
 use App\Infrastructure\Mapper\Task\PdoMapperTest;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
+use PDOException;
 
 class PdoUserDatamapperTest extends PdoMapperTest
 {
 
-    public function testMappingData() : void
+    public function testMappingData(): void
     {
         $statement = $this->getMockedStatement();
         $statement->method('fetch')
-            ->willReturn(['id'=>1, 'name'=>'mariano', 'email'=>'mariano@m.com', 'password'=>'asd']);
+            ->willReturn(['id' => 1, 'name' => 'mariano', 'email' => 'mariano@m.com', 'password' => 'asd']);
         $dataMapper = new PdoUserMapper($this->getMockedPdo($statement));
-        $user = $dataMapper->fetchUserBy(["id"=>1]);
+        $user = $dataMapper->fetchUserBy(["id" => 1]);
         $this->assertNotNull($user);
         $this->assertEquals('mariano@m.com', $user->getEmail());
         $this->assertEquals('mariano', $user->getName());
         $this->assertEquals(1, $user->getId());
     }
 
-    public function testNoResults() : void
+    public function testNoResults(): void
     {
         $statement = $this->getMockedStatement();
         $statement->method('fetch')
             ->willReturn(false);
         $dataMapper = new PdoUserMapper($this->getMockedPdo($statement));
-        $user = $dataMapper->fetchUserBy(["id"=>1]);
+        $user = $dataMapper->fetchUserBy(["id" => 1]);
         $this->assertEquals(null, $user);
     }
 
@@ -41,7 +42,7 @@ class PdoUserDatamapperTest extends PdoMapperTest
      * Validation in parameters map.
      * Validation in query that will be executed.
      */
-    public function testUpdateUser() : void
+    public function testUpdateUser(): void
     {
         $user = new User("Mariano", "email@email.com");
         $user->setPassword("pass");
@@ -59,7 +60,7 @@ class PdoUserDatamapperTest extends PdoMapperTest
      * Test create users
      * Check query and setting id to user
      */
-    public  function testCrateUser() : void
+    public function testCrateUser(): void
     {
         $user = new User("Mariano", "email@email.com");
         $user->setPassword("pass");
@@ -78,31 +79,31 @@ class PdoUserDatamapperTest extends PdoMapperTest
      * Test PDO exceptions handling
      * Maintain exception wrapping
      */
-    public function testPdoExceptionHandlingOnInsert() {
+    public function testPdoExceptionHandlingOnInsert()
+    {
         $user = new User("Mariano", "email@email.com");
         $user->setPassword("pass");
         $connection = $this->getMockedPdo();
         $connection->method('prepare')
-            ->willThrowException(new \PDOException());
+            ->willThrowException(new PDOException());
         $dataMapper = new PdoUserMapper($connection);
         $this->expectException(MapperException::class);
         $dataMapper->createUser($user);
         $this->expectException(MapperException::class);
         $dataMapper->updateUser($user);
-
     }
 
-     /**
-      * Test PDO exceptions handling
-      * Maintain exception wrapping
-      */
-    public function testPdoSelectException() : void
+    /**
+     * Test PDO exceptions handling
+     * Maintain exception wrapping
+     */
+    public function testPdoSelectException(): void
     {
         $connection = $this->getMockedPdo();
         $connection->method('prepare')
-            ->willThrowException(new \PDOException());
+            ->willThrowException(new PDOException());
         $dataMapper = new PdoUserMapper($connection);
         $this->expectException(MapperException::class);
-        $dataMapper->fetchUserBy(['id'=>1]);
+        $dataMapper->fetchUserBy(['id' => 1]);
     }
 }
