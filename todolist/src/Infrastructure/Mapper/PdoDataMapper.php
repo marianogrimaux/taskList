@@ -31,8 +31,7 @@ abstract class PdoDataMapper
             $sql .= array_keys($valuesMap)[0] . '=?';
         }
         try {
-            $statement = $this->dbConnection->prepare($sql);
-            $statement->execute(array_values($valuesMap));
+            $statement = $this->runQuery($sql, $valuesMap);
             if ($statement->rowCount() > 1) {
                 $fetchedData = $statement->fetchAll(PDO::FETCH_ASSOC);
             } else {
@@ -61,8 +60,7 @@ abstract class PdoDataMapper
         $sql = 'UPDATE ' . $this->getTableName() . ' SET ' . implode(", ", $valuesToSet)
             . ' WHERE ' . implode('AND ', $whereConditions);
         try {
-            $stmt = $this->dbConnection->prepare($sql);
-            $stmt->execute(array_merge($valuesMap, $whereValues));
+            $statement = $this->runQuery($sql, array_merge($valuesMap, $whereValues));
         } catch (PDOException $exception) {
             throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
@@ -81,8 +79,7 @@ abstract class PdoDataMapper
         $sql = 'INSERT INTO ' . $this->getTableName() . ' ('
             . implode(', ', array_keys($valuesMap)) . ') VALUES (' . implode(', ', $placeholders) . ')';
         try {
-            $statement = $this->dbConnection->prepare($sql);
-            $statement->execute($valuesMap);
+            $statement = $this->runQuery($sql, $valuesMap);
             return (int)$this->dbConnection->lastInsertId();
         } catch (PDOException $exception) {
             throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
@@ -97,10 +94,16 @@ abstract class PdoDataMapper
         }
         $sql = 'DELETE FROM ' . $this->getTableName() . ' WHERE ' . implode('AND ', $whereConditions);
         try {
-            $statement = $this->dbConnection->prepare($sql);
-            $statement->execute($valuesMap);
+            $statement = $this->runQuery($sql, $valuesMap);
         } catch (PDOException $exception) {
             throw new MapperException($exception->getMessage(), (int)$exception->getCode(), $exception);
         }
     }
-}
+
+    private function runQuery(string $sql, array $valuesMap) : \PDOStatement
+    {
+        $statement = $this->dbConnection->prepare($sql);
+        $statement->execute($valuesMap);
+        return $statement;
+    }
+ }
