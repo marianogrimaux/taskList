@@ -31,7 +31,7 @@ abstract class PdoDataMapper
             $sql .= array_keys($valuesMap)[0] . '=?';
         }
         try {
-            $statement = $this->runQuery($sql, $valuesMap);
+            $statement = $this->runQuery($sql, array_values($valuesMap));
             if ($statement->rowCount() > 1) {
                 $fetchedData = $statement->fetchAll(PDO::FETCH_ASSOC);
             } else {
