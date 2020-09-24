@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Mapper\User;
 
-use App\Entity\User;
+use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\PdoDataMapper;
 
 class PdoUserMapper extends PdoDataMapper implements UserMapperInterface

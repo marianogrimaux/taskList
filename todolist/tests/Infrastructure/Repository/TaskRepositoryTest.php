@@ -2,18 +2,17 @@
 
 declare(strict_types=1);
 
-namespace tests\Repository;
+namespace Tests\Infrastructure\Repository;
 
-use App\Entity\Task;
-use App\Entity\User;
+use App\Domain\Entity\Task;
+use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\Task\PdoTaskMapper;
-use App\Repository\TaskRepository;
+use App\Infrastructure\Repository\TaskRepository;
 use DateTime;
 use PHPUnit\Framework\testCase;
 
-class TaskRepositorytest extends testCase
+class TaskRepositoryTest extends testCase
 {
-
     public function testCreateTask(): void
     {
         $task = new Task("task", new DateTime(), $this->getMockedUser());

@@ -3,9 +3,9 @@
 declare(strict_types=1);
 
 
-namespace App\Repository;
+namespace App\Domain\Repository;
 
-use App\Entity\Task;
+use App\Domain\Entity\Task;
 
 interface TaskRepositoryInterface
 {

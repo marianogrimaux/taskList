@@ -5,8 +5,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Mapper\User;
 
-
-use App\Entity\User;
+use App\Domain\Entity\User;
 
 interface UserMapperInterface
 {

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Entity;
 
-use App\Entity\Task;
-use App\Entity\User;
+use App\Domain\Entity\Task;
+use App\Domain\Entity\User;
 use PHPUnit\Framework\TestCase;
 
 class TaskTest extends TestCase

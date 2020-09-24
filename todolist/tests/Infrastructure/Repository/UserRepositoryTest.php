@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace Tests\Repository;
+namespace Tests\Infrastructure\Repository;
 
-use App\Entity\User;
+use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
-use App\Repository\UserRepository;
+use App\Infrastructure\Repository\UserRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 

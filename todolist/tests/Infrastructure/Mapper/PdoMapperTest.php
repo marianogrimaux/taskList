@@ -3,7 +3,7 @@
 declare(strict_types=1);
 
 
-namespace App\Infrastructure\Mapper\Task;
+namespace Tests\Infrastructure\Mapper;
 
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;

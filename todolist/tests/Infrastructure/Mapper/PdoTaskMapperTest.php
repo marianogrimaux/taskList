@@ -4,9 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Mapper;
 
-use App\Entity\Task;
-use App\Entity\User;
-use App\Infrastructure\Mapper\Task\PdoMapperTest;
+use App\Domain\Entity\Task;
+use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\Task\PdoTaskMapper;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
 use DateTime;

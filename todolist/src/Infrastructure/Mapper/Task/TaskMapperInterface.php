@@ -2,7 +2,7 @@
 
 namespace App\Infrastructure\Mapper\Task;
 
-use App\Entity\Task;
+use App\Domain\Entity\Task;
 
 interface TaskMapperInterface
 {

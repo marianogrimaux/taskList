@@ -2,9 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\Infrastructure\Repository;
 
-use App\Entity\Task;
+use App\Domain\Entity\Task;
+use App\Domain\Repository\TaskRepositoryInterface;
 use App\Infrastructure\Mapper\Task\TaskMapperInterface;
 
 class TaskRepository implements TaskRepositoryInterface

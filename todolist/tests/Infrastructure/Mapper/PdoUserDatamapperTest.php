@@ -3,11 +3,10 @@
 declare(strict_types=1);
 
 
-namespace Tests\Infrastructure;
+namespace Tests\Infrastructure\Mapper;
 
-use App\Entity\User;
+use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\MapperException;
-use App\Infrastructure\Mapper\Task\PdoMapperTest;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
 use PDOException;
 

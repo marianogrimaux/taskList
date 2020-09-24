@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Mapper\Task;
 
-use App\Entity\Task;
+use App\Domain\Entity\Task;
 use App\Infrastructure\Mapper\PdoDataMapper;
 use App\Infrastructure\Mapper\User\UserMapperInterface;
 use PDO;
