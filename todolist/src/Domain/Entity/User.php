@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domain\Entity;
 
+use App\Domain\Entity\Email;
+
 class User
 {
     private $id;
@@ -11,7 +13,7 @@ class User
     private $password;
     private $name;
 
-    function __construct(string $name, string $email)
+    function __construct(string $name,  Email $email)
     {
         $this->name = $name;
         $this->email = $email;
@@ -36,7 +38,7 @@ class User
     /**
      * @return string
      */
-    public function getEmail(): string
+    public function getEmail(): Email
     {
         return $this->email;
     }
@@ -44,7 +46,7 @@ class User
     /**
      * @param string $email
      */
-    public function setEmail(string $email): void
+    public function setEmail(Email $email): void
     {
         $this->email = $email;
     }
@@ -52,7 +54,7 @@ class User
     /**
      * @return mixed
      */
-    public function getPassword(): ?string
+    public function getPassword(): ?Password
     {
         return $this->password;
     }
@@ -60,7 +62,7 @@ class User
     /**
      * @param mixed $password
      */
-    public function setPassword($password): void
+    public function setPassword(Password $password): void
     {
         $this->password = $password;
     }

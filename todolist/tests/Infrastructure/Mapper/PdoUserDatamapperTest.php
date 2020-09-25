@@ -5,6 +5,8 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Mapper;
 
+use App\Domain\Entity\Email;
+use App\Domain\Entity\Password;
 use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\MapperException;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
@@ -21,7 +23,7 @@ class PdoUserDatamapperTest extends PdoMapperTest
         $dataMapper = new PdoUserMapper($this->getMockedPdo($statement));
         $user = $dataMapper->fetchUserBy(["id" => 1]);
         $this->assertNotNull($user);
-        $this->assertEquals('mariano@m.com', $user->getEmail());
+        $this->assertEquals('mariano@m.com', $user->getEmail()->__toString());
         $this->assertEquals('mariano', $user->getName());
         $this->assertEquals(1, $user->getId());
     }
@@ -43,8 +45,8 @@ class PdoUserDatamapperTest extends PdoMapperTest
      */
     public function testUpdateUser(): void
     {
-        $user = new User("Mariano", "email@email.com");
-        $user->setPassword("pass");
+        $user = new User("Mariano", new Email("email@email.com"));
+        $user->setPassword(new Password('12345678'));
         $user->setId(1);
         $statement = $this->buildPdoStatementMockWithValueMapCheck(['name', 'email', 'password']);
         $connection = $this->buildPdoMockWithQueryCheck(
@@ -61,8 +63,8 @@ class PdoUserDatamapperTest extends PdoMapperTest
      */
     public function testCrateUser(): void
     {
-        $user = new User("Mariano", "email@email.com");
-        $user->setPassword("pass");
+        $user = new User("Mariano", new Email("email@email.com"));
+        $user->setPassword(new Password('12345678'));
         $statement = $this->buildPdoStatementMockWithValueMapCheck(['name', 'email', 'password']);
         $connection = $this->buildPdoMockWithQueryCheck(
             'INSERT INTO user (name, email, password) VALUES (:name, :email, :password)',
@@ -80,8 +82,8 @@ class PdoUserDatamapperTest extends PdoMapperTest
      */
     public function testPdoExceptionHandlingOnInsert()
     {
-        $user = new User("Mariano", "email@email.com");
-        $user->setPassword("pass");
+        $user = new User("Mariano", new Email("email@email.com"));
+        $user->setPassword(new Password('12345678'));
         $connection = $this->getMockedPdo();
         $connection->method('prepare')
             ->willThrowException(new PDOException());

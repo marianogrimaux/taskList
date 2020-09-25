@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Infrastructure\Mapper\User;
 
+use App\Domain\Entity\Email;
+use App\Domain\Entity\Password;
 use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\PdoDataMapper;
 
@@ -23,8 +25,8 @@ class PdoUserMapper extends PdoDataMapper implements UserMapperInterface
      */
     private function buildUserFromDbValues(array $userValues)
     {
-        $user = new User($userValues['name'], $userValues['email']);
-        $user->setPassword($userValues['password']);
+        $user = new User($userValues['name'], new Email($userValues['email']));
+        $user->setPassword(new Password($userValues['password']));
         $user->setId($userValues['id']);
         return $user;
     }
@@ -42,7 +44,6 @@ class PdoUserMapper extends PdoDataMapper implements UserMapperInterface
         ];
         $this->executeUpdate($valuesMap, ['id' => $user->getId()]);
     }
-
 
     /**
      * @param User

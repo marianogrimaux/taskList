@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Entity;
 
+use App\Domain\Entity\Email;
 use App\Domain\Entity\Task;
 use App\Domain\Entity\User;
 use PHPUnit\Framework\TestCase;
@@ -42,7 +43,7 @@ class TaskTest extends TestCase
 
     private function getUser() : User
     {
-        return new User('Mariano', 'mariano@mariano.com');
+        return new User('Mariano', new Email('mariano@mariano.com'));
     }
 
 }

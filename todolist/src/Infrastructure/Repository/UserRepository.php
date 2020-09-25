@@ -30,7 +30,7 @@ class UserRepository implements UserRepositoryInterface
 
     public function userExists(User $user): bool
     {
-        return !!$this->mapper->fetchUserBy(['email' => $user->getEmail()]);
+        return !!$this->mapper->fetchUserBy(['email' => (string)$user->getEmail()]);
     }
 
     public function save(User $user): void

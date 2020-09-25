@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Infrastructure\Repository;
 
+use App\Domain\Entity\Email;
 use App\Domain\Entity\User;
 use App\Infrastructure\Mapper\User\PdoUserMapper;
 use App\Infrastructure\Repository\UserRepository;
@@ -14,7 +15,7 @@ class UserRepositoryTest extends TestCase
 {
     public function testCreateUser()
     {
-        $user = new User("mariano", "maraino@mariano.com");
+        $user = new User("mariano", new Email("email@email.com"));
         $mapper = $this->getMockedMapper();
         $mapper->expects($this->once())
             ->method('createUser')
@@ -42,7 +43,7 @@ class UserRepositoryTest extends TestCase
 
     public function testUpdateUser()
     {
-        $user = new User("mariano", "maraino@mariano.com");
+        $user = new User("mariano", new Email("email@email.com"));
         $user->setId(22);
         $mapper = $this->getMockedMapper();
         $mapper->expects($this->once())
@@ -63,7 +64,7 @@ class UserRepositoryTest extends TestCase
 
     public function testFindBy()
     {
-        $user = new User("mariano", "mariano@mariano.com");
+        $user = new User("mariano", new Email("email@email.com"));
         $searchParams = ['email' => 'mariano'];
         $mapper = $this->getMockedMapper();
         $mapper->expects($this->once())
@@ -77,7 +78,7 @@ class UserRepositoryTest extends TestCase
 
     public function testFindByNoResults()
     {
-        $user = new User("mariano", "mariano@mariano.com");
+        $user = new User("mariano", new Email("email@email.com"));
         $searchParams = ['email' => 'mariano'];
         $mapper = $this->getMockedMapper();
         $mapper->expects($this->once())
@@ -91,7 +92,7 @@ class UserRepositoryTest extends TestCase
 
     public function testUserExists()
     {
-        $user = new User("mariano", "mariano@mariano.com");
+        $user = new User("mariano", new Email("email@email.com"));
         $mapper = $this->getMockedMapper();
         $mapper->expects($this->once())
             ->method('fetchUserBy')
@@ -104,7 +105,7 @@ class UserRepositoryTest extends TestCase
 
     public function testUserDoesNotExist()
     {
-        $user = new User("mariano", "mariano@mariano.com");
+        $user = new User("mariano", new Email("email@email.com"));
         $mapper = $this->getMockedMapper();
         $mapper->expects($this->once())
             ->method('fetchUserBy')
